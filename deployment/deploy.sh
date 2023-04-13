@@ -200,6 +200,7 @@ function init() {
         SETUP_SHEET_ID=$(cat config.json | jq -r '.setup_sheet_id')
         SETUP_JSON_URL=$(cat config.json | jq -r '.setup_json_url')
         SETUP_FIRESTORE_COLLECTION=$(cat config.json | jq -r '.setup_firestore_collection')
+        SUBNETWORK=$(cat config.json | jq -r '.subnetwork')
         # Validate params before deployment
         check_valid_parameters
         # Confirm details
@@ -213,6 +214,7 @@ function init() {
         echo "${bold}${text_green}BigQuery Dataset: ${BQ_OPS_DATASET_NAME}${reset}"
         echo "${bold}${text_green}Location: ${LOCATION}${reset}"
         echo "${bold}${text_green}Region: ${REGION}${reset}"
+        echo "${bold}${text_green}Subnetwork: ${SUBNETWORK}${reset}"
         echo
         if ask "Do you want to continue?"; then
             echo
@@ -259,7 +261,7 @@ function init() {
             # Build metadata and copy it to Cloud Storage
             start_message "Building Dataflow metadata..."
             cd ..
-            sh ./deployment/deploy_cloud.sh ${GOOGLE_CLOUD_PROJECT} ${BUCKET_NAME} ${REGION} ${SERVICE_ACCOUNT}
+            sh ./deployment/deploy_cloud.sh ${GOOGLE_CLOUD_PROJECT} ${BUCKET_NAME} ${REGION} ${SERVICE_ACCOUNT} ${SUBNETWORK}
             echo
 
             echo "✅ ${bold}${text_green} Done!${reset}"
